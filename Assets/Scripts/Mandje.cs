@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mandje : MonoBehaviour
-{
+public class Mandje : MonoBehaviour {
     public GameObject prefabContainer;
     public GameObject parentCanvas;
     public GameObject priceContainer;
@@ -11,53 +10,48 @@ public class Mandje : MonoBehaviour
 
     private List<GameObject> mandje = new List<GameObject>();
     private List<GameObject> spawnedObjects = new List<GameObject>();
-    private int doublesFound = 0;
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.E)) {
-            ReloadMandje();
-        }
-    }
+    private Dictionary<GameObject, float> mandjeDic = new Dictionary<GameObject, float>();
 
     public void AddItem(GameObject Item) {
-        mandje.Add(Item);
+        if (mandjeDic.ContainsKey(Item)) {
+            mandjeDic[Item] += 1;
+            ReloadMandje();
+            return;
+        }
+        mandjeDic.Add(Item, 1); 
         ReloadMandje();
     }
 
     public void RemoveItem(GameObject Item) {
-        var tmp = mandje[Item.GetComponent<PrefabContainerInfo>().ID];
-        mandje.Remove(tmp);
+        var tmp = Item.GetComponent<PrefabContainerInfo>().ID;
+        if (mandjeDic.ContainsKey(tmp)) {
+            if (mandjeDic[tmp] > 1) {
+                mandjeDic[tmp] -= 1;
+                ReloadMandje();
+                return;
+            }
+            mandjeDic.Remove(tmp);
+        }
         ReloadMandje();
     }
 
     public void ReloadMandje() {
-        var tmpPrice = 0f;
+        Dictionary<GameObject, float>.KeyCollection keys = mandjeDic.Keys;
+        mandje.Clear();
+        foreach (GameObject key in keys) {
+            mandje.Add(key);
+        }
 
-        if(spawnedObjects.Count > 0) {
+        var tmpPrice = 0f;
+        var tmpProductAmount = 0f;
+
+        if (spawnedObjects.Count > 0) {
             for (int i = 0; i < spawnedObjects.Count; i++) {
                 GameObject.Destroy(spawnedObjects[i]);
             }
         }
 
-        for (int i = 0; i < mandje.Count; i++) {
-            //var isdouble = false;
-            //for (int k = 0; k < i; k++) {
-            //    if (mandje[i] == mandje[k]) {
-            //        isdouble = true;
-            //    }
-            //}
-
-            //if (isdouble) {
-            //    continue;
-            //}
-
-            //var currentAmount = 0f;
-            //for (int j = 0; j < mandje.Count; j++) {
-            //    if (mandje[i] == mandje[j]) {
-            //        currentAmount += 1;
-            //    }
-            //}
-
+        for (int i = 0; i < mandjeDic.Count; i++) {
             var offset = new Vector2(StartingPosition.position.x, StartingPosition.position.y - (i * 200));
             var tmp = Instantiate(prefabContainer, offset, Quaternion.identity);
             tmp.transform.SetParent(parentCanvas.transform);
@@ -65,17 +59,19 @@ public class Mandje : MonoBehaviour
             var tmpInfo = tmp.GetComponent<PrefabContainerInfo>();
             var mandjeInfo = mandje[i].GetComponent<ContainerInfo>();
 
-            //if(currentAmount > 0)
-            //    tmpInfo.amount = currentAmount;
-            tmpInfo.ID = i;
+            tmpInfo.amount = mandjeDic[mandje[i]];
+            tmpProductAmount += mandjeDic[mandje[i]];
+            tmpInfo.ID = mandje[i];
             tmpInfo.itemName = mandjeInfo.itemName;
             tmpInfo.price = mandjeInfo.price;
-            tmpPrice += mandjeInfo.price;
+            tmpPrice += mandjeInfo.price * mandjeDic[mandje[i]];
 
             spawnedObjects.Add(tmp);
         }
 
-        priceContainer.transform.position = new Vector2(StartingPosition.position.x, StartingPosition.position.y - ((mandje.Count * 200) + 50));
-        priceContainer.GetComponent<PrefabContainerInfo>().price = tmpPrice;
+        priceContainer.transform.position = new Vector2(StartingPosition.position.x, StartingPosition.position.y - ((mandjeDic.Count * 200) + 50));
+        var tmpPriceContainer = priceContainer.GetComponent<PrefabContainerInfo>();
+        tmpPriceContainer.price = tmpPrice;
+        tmpPriceContainer.amount = tmpProductAmount;
     }
 }

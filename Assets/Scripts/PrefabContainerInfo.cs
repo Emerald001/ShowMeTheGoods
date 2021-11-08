@@ -12,13 +12,13 @@ public class PrefabContainerInfo : MonoBehaviour
     public float price;
     public float amount;
     public string itemName;
-    public int ID;
+    public GameObject ID;
     public delegate void Func(GameObject @object);
 
     private void Update() {
         PriceText.text = "€ " + price.ToString() + ",-";
         NameText.text = itemName;
-        //AmountText.text = "X" + amount.ToString();
+        AmountText.text = "X" + amount.ToString();
     }
 
     public void RemoveThis() {
