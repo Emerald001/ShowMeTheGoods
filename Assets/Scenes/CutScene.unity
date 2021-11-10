@@ -351,7 +351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -134, y: 189}
+  m_AnchoredPosition: {x: -107, y: 115}
   m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &660178044
@@ -651,8 +651,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 52ca87aef485c2046928ffc6c641498d, type: 3}
   cutsceneTexts:
   - '"Hallo daar Hilda, tijdje geleden"'
-  - '"Hoi Janneke, ik heb net een geweldig boek gelezen genaamd ''De Oudheid'' ik
-    raad hem sterk aan!"'
+  - '"Hoi Janneke, ik heb net een geweldig boek gelezen genaamd ''Ziek Gelukkig''
+    ik raad hem sterk aan!"'
   - '"Zozo, Nou dan zal ik die later in de middag opzoeken in de boekenwinkel, Hilda"'
   - '"Goed Idee, Janneke"'
   - '"Tjeeminee Hansje, ik heb net zo lang gezocht naar een boek genaamd ''De Oudheid'',
@@ -661,7 +661,7 @@ MonoBehaviour:
   - '"Goegel?ik kan niet googelen, hansje. Mischien dat jij kan laten zien hoe dat
     moet?"'
   - '"Tuurlijk, oma, ik ben slim"'
-  timePerText: 3.5
+  timePerText: 4.5
   image: {fileID: 671780786}
   text: {fileID: 660178044}
   lastTextIndexScene1: 3
