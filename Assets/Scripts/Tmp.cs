@@ -24,8 +24,6 @@ public class Tmp : MonoBehaviour
         var Vpos = rt.position.y + (scroll.y * 100);
         Vpos = Mathf.Clamp(Vpos, top, top + size/2);
 
-        Debug.Log(Vpos);
-
         rt.position = new Vector2(transform.position.x, Vpos);
     }
 }

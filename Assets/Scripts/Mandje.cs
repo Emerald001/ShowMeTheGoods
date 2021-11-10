@@ -52,7 +52,7 @@ public class Mandje : MonoBehaviour {
         }
 
         for (int i = 0; i < mandjeDic.Count; i++) {
-            var offset = new Vector2(StartingPosition.position.x, StartingPosition.position.y - (i * 200));
+            var offset = new Vector2(StartingPosition.position.x, StartingPosition.position.y - (i * 100));
             var tmp = Instantiate(prefabContainer, offset, Quaternion.identity);
             tmp.transform.SetParent(parentCanvas.transform);
 
@@ -69,7 +69,7 @@ public class Mandje : MonoBehaviour {
             spawnedObjects.Add(tmp);
         }
 
-        priceContainer.transform.position = new Vector2(StartingPosition.position.x, StartingPosition.position.y - ((mandjeDic.Count * 200) + 50));
+        priceContainer.transform.position = new Vector2(StartingPosition.position.x, StartingPosition.position.y - ((mandjeDic.Count * 100) + 50));
         var tmpPriceContainer = priceContainer.GetComponent<PrefabContainerInfo>();
         tmpPriceContainer.price = tmpPrice;
         tmpPriceContainer.amount = tmpProductAmount;
